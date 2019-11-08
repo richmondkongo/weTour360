@@ -1,0 +1,22 @@
+<input type="file" (change)="onFileChanged($event)">
+<button (click)="onUpload()">VALIDER</button>
+<img  *ngIf="selectedFile != null" src="{{ selectedFile }}" alt="__image-en-chargement__">
+<p *ngIf="selectedFile != null">File<br>{{ selectedFile }}</p>
+
+
+<!-- <div class="one" [innerHtml]="htmlToAdd"></div> -->
+<!-- <div class="one" #one></div>
+<a class="one" id="skybox">test</a> -->
+<!-- 
+<button data-target="modal1" class="btn modal-trigger">Modal</button>
+<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+<div id="modal1" class="modal">
+   <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+   </div>
+   <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+   </div>
+</div>
+--> 

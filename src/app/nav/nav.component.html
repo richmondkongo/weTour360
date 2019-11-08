@@ -1,0 +1,90 @@
+<ul id="slide-out" class="sidenav" style="z-index: 9999">
+	<li>
+		<div class="user-view">
+			<div class="background">
+				<img src="assets/img/imgclient.jpg" alt="">
+			</div>
+			<a href="#name"><span class="white-text name">{{ name }}</span></a>
+			<a href="#email"><span class="white-text email">{{ user?.email }}</span></a>
+		</div>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/map')}">
+		<a (click)="goToMap()"><i class="fas fa-map-marked-alt"></i>&nbsp;Map</a>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/biens-immobiliers')}">
+		<a (click)="goToBiensImmobiliers()"><i class="fas fa-home"></i>&nbsp;Biens immobiliers</a>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/entreprises')}">
+		<a (click)="goToEntreprise()"><i class="fas fa-university"></i>&nbsp;Entreprises</a>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/groupe-entreprises')}">
+		<a (click)="goToEnterpriseGroup()"><i class="fas fa-link"></i>&nbsp;Groupe d'Entreprises</a>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/categories')}">
+		<a (click)="goToCategories()"><i class="fas fa-cubes"></i>&nbsp;Catégories</a>
+	</li>
+	
+	<!-- <li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/number')}">
+		<a (click)="goToNumber()"><i class="fas fa-phone"></i>&nbsp;Numéros</a>
+	</li> -->
+	<!-- <li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/vr')}">
+		<a routerLink="/vr"><i class="fas fa-vr-cardboard"></i>&nbsp;VR-exemple</a>
+	</li> -->
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/vr')}">
+		<a href="https://localhost:3000/"><img src="https://thumb1.shutterstock.com/thumb_large/384199/207897970/stock-vector-virtual-reality-headset-icon-207897970.jpg" style="max-width: 20px; max-height: 25px;">&nbsp;VR-exemple</a>
+	</li>
+	<li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/profil')}">
+		<a (click)="goToProfil()"><i class="fas fa-user"></i>&nbsp;Profil</a>
+	</li>
+	<li class="bottombordered">
+		<a (click)="logout()"><i class="fas fa-sign-out-alt"></i>&nbsp;Se déconnecter</a>
+	</li>
+
+	<!-- <li class="bottombordered" [ngClass]="{'active active-link': router.isActive('/')}">
+		<a (click)="()"><i class="fas fa-home"></i>&nbsp;</a>
+	</li> -->
+</ul>
+
+<div id="toolbar">
+	<div id="niveau2" class="ym-grid linearize-level-1">
+		<div id="infosite" class="ym-g80 ym-gl">
+			<a data-target="slide-out" class="sidenav-trigger"><i class="fas fa-bars"></i></a>
+			<p><img src="assets/img/logo.svg" alt=""><strong>WeTour</strong>&nbsp;360°</p>
+			<div id="backgrou">
+				<div class="ym-gbox">
+					<div class="durmp ym-grid linearize-level-1">
+						<div class="ym-g66 ym-gl">
+							<form action="">
+								<div class="whitney">
+									<input type="text" name="search" class="search"
+										placeholder="Saisir l’adresse d’une ou plusieurs de vos propriétés ici ">
+									<i class="fas fa-search"></i>
+								</div>
+							</form>
+						</div>
+						<div class="ym-g33 ym-gr">
+							<div class="houston">
+								<div class="ym-gbox">
+									<input type="text" class="datepicker got" placeholder="Cliquez ici pour changer la date">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="bounceo" class="ym-g20 ym-gr">
+			<div class="ym-gbox joints">
+				<!-- notifs -->
+				<div class="notifi active isn">
+					<i class="fas fa-bell fa-2x"></i>
+				</div>
+				<!-- lien vers profil -->
+				<div class="prodil isn">
+					<strong><a href="#" data-target="slide-out" class="sidenav-trigger black-text">{{ name }}</a></strong>
+					<a class="ytf" (click)="logout()"><i class="fas fa-sign-out-alt"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

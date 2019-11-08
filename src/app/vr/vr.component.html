@@ -1,0 +1,79 @@
+<section class="vr-dashboard  grey-text darken-2">
+	<main>
+		<!-- <app-nav style="position: absolute;"></app-nav> -->
+		<div id="contenu" class="container"> 
+			<div class="row">
+				<div class="col s3" style="z-index: 2;">
+					<div class="collection lighten-2" *ngIf="img != null">
+						<a (click)="imgOfSky(_img.id)" class="collection-item lighten-2" *ngFor="let _img of img.results">{{ _img.libelle }}</a>
+					</div>
+				</div>
+				<a-scene background="color: #ECECEC" cursor="rayOrigin: mouse" do-something #visit_virtuelle>
+					<a-assets *ngIf="img != null">
+						<!-- <img *ngFor="let __img of img.results" id="point{{ __img.id }}" src="{{ __img.lien }}" /> -->
+						<img id="point1" src="http://178.33.130.195:8002/media/1.jpg"/>
+						<img id="point2" src="http://178.33.130.195:8002/media/2.jpg"/>
+						<img id="point3" src="http://178.33.130.195:8002/media/3.jpg">
+						<img id="hotspot" src="assets/views/hotspoticon.png"/>
+					</a-assets>
+			
+					<a-entity id="cam" camera position="0 1.6 0" look-controls>
+						<a-entity rotation-reader></a-entity>
+						<a-entity cursor-listener cursor="fuse:true;fuseTimeout:2000"
+							geometry="primitive:ring;radiusInner:0.01;radiusOuter:0.02" position="0 0 -1.8"
+							material="shader:flat;color:#ff0000"
+							animation__mouseenter="property:scale;to:3 3 3;startEvents:mouseenter;endEvents:mouseleave;dir:reverse;dur:2000;loop:1">
+						</a-entity>
+					</a-entity>
+			
+					<a-entity id="spots" hotspots *ngIf="img != null && img.results.length > 0">
+						<a-entity id="group-point{{ _img.id }}"  *ngFor="let _img of img.results">
+							<a-image spot="{{ _entity.spot }}" position="{{ _entity.position  }}"  *ngFor="let _entity of _img.entities"></a-image>
+						</a-entity>
+					</a-entity>
+					<a-sky id="skybox" src=""></a-sky>
+				</a-scene>
+
+
+
+
+				<!-- <a-scene background="color: #ECECEC" cursor="rayOrigin: mouse" do-something class="col s9">
+					<a-assets *ngIf="img != null">
+						<img *ngFor="let __img of img.results" id="point{{ __img.id }}" src="{{ __img.lien }}" />
+						<img id="hotspot" src="assets/link.png" />
+					</a-assets>
+					<a-entity id="cam" camera position="0 1.6 0" look-controls>
+						<a-entity rotation-reader></a-entity>
+						<a-entity cursor-listener cursor="fuse:true;fuseTimeout:2000"
+							geometry="primitive:ring;radiusInner:0.01;radiusOuter:0.02" position="0 0 -1.8"
+							material="shader:flat;color:#ff0000"
+							animation__mouseenter="property:scale;to:3 3 3;startEvents:mouseenter;endEvents:mouseleave;dir:reverse;dur:2000;loop:1">
+						</a-entity>
+					</a-entity>
+					<a-entity id="spots" hotspots *ngIf="entity != null">
+						<a-entity id="group-point{{ _entity.image_visite_virtuelle }}" *ngFor="let _entity of entity">
+							<a-image spot="{{ _entity.spot }}" position="{{ _entity.position  }}"></a-image>
+						</a-entity>
+					</a-entity>
+					<a-sky id="skybox" src="{{ pointer }}"> </a-sky>
+				</a-scene> -->
+			</div>
+		</div>
+	</main>
+	<!--[if IE]>
+			 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+		  <![endif]-->
+	<!-- degrade. ne pas supprimer svp -->
+	<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+		<linearGradient id="my-cool-gradient" x2="1" y2="1">
+			<stop offset="0%" stop-color="#fc7f45" />
+			<stop offset="100%" stop-color="#c45b6c" />
+		</linearGradient>
+	</svg>
+</section>
+
+<div class="fixed-action-btn" style="margin-bottom: 4em;">
+	<a class="btn-floating btn-large red lighten-1" routerLink="/maps">
+		<i class="large material-icons">add</i> 
+	</a>
+</div>

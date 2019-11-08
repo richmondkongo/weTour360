@@ -1,0 +1,191 @@
+<section class="vr-dashboard">
+	<main>
+		<app-nav style="position: absolute;"></app-nav>
+		<div id="contenu" class="container">
+			<div class="row">
+				<div class="col s12 offset-s0 m8 offset-m2">
+					<div class="row" *ngIf="action == 1">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">LISTE DE VOS BIENS
+									IMMOBILIERS</span>
+							</div>
+							<div class="row">
+								<div class="col s12 m6" *ngFor="let _bien of bienIm">
+									<div class="card hoverable">
+										<div class="card-image">
+											<!-- <img src="http://localhost:4200/assets/img/logo.svg"> -->
+											<a class="btn-floating halfway-fab waves-effect waves-light red"
+												(click)="deleteBien(_bien)" style="margin-right: 2.5em"><i
+													class="material-icons">delete</i></a>
+											<a class="btn-floating halfway-fab waves-effect waves-light green"
+												(click)="viewPart(2, _bien)"><i class="material-icons">edit</i></a>
+										</div>
+										<div class="card-content">
+											<span class="card-title red-text lighten-1">{{ _bien.matricule }}:
+												{{ _bien.libelle }}</span>
+											<ul class="grey-text darken-2">
+												<li>longueur: {{ _bien.longueur_superficie }} m</li>
+												<li>largeur: {{ _bien.largeur_superficie }} m</li>
+												<li>valeur: {{ _bien.valeur }}</li>
+												<li>nombre pièce: {{ _bien.nombre_pieces }}</li>
+												
+												<li *ngIf="_bien.categories && _bien.categories.length > 0">catégorie(s):
+													<span *ngFor="let _cat of _bien.categories">
+														{{ selectCategorie(_cat) }}</span>-
+												</li>
+											
+											</ul>
+										</div>
+										<!--
+										<div class="card-action">
+											<a class="red-text lighten-2" (click)="viewPart(2, _bien)">MODIFIER CE BIEN</a>
+										</div>-->
+									</div>
+								</div>
+							</div>
+							<!-- <div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m4 push-m2 btn waves-effect waves-light red lighten-2" name="action"
+									(click)="viewPart(3)">AJOUTER UN BIENS
+									<i class="material-icons right">add</i>
+								</button>
+							</div> -->
+						</div>
+					</div>
+					<div class="row card-panel" *ngIf="action == 2 && bienMod != null">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">MODIFIER LE
+									BIEN IMMOBILIER</span>
+							</div>
+						</div>
+						<form class="col s12" (ngSubmit)="onSubmitModBien(formModBien)" #formModBien="ngForm">
+							<div class="row">
+								<div class="input-field col s12">
+									<span class="grey-text darken-2">Libellé</span>
+									<input placeholder="{{bienMod.libelle}}" id="libelle" type="text" class="validate"
+										name="libelle" [(ngModel)]="bienMod.libelle">
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2">Largeur</span>
+									<input id="largeur" type="number" class="validate" name="larg"
+										[(ngModel)]="bienMod.largeur_superficie">
+								</div>
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2">Longueur</span>
+									<input id="longueur" type="number" class="validate" name="long"
+										[(ngModel)]="bienMod.longueur_superficie">
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2">Nombre de pièce</span>
+									<input id="nbPiece" type="number" class="validate" name="nbPiece"
+										[(ngModel)]="bienMod.nombre_pieces">
+									<!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+								</div>
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2">Valeur estimée</span>
+									<input id="valeur" type="number" class="validate" name="valeur" [(ngModel)]="bienMod.valeur">
+									<!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+								</div>
+							</div>
+							<div class="row">
+								<span *ngFor="let catMod of categorie" class="col s6 m4 l3 xl2">
+									<label>
+										<input type="checkbox" name="{{ catMod.id }}" [ngModel]="isChecked(catMod.id)" ngModel />
+										<span>{{ catMod.libelle }}</span>
+									</label>
+								</span>
+							</div>
+							<div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m6 push-m6 btn waves-effect waves-light red lighten-2" type="submit"
+									name="action">Valider la modifcation
+									<i class="material-icons right">send</i>
+								</button>
+							</div>
+						</form>
+					</div>
+					<div class="row card-panel" *ngIf="action == 3">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">INSERER UN NOUVEAU
+									BIEN IMMOBILIER</span>
+							</div>
+						</div>
+						<form class="col s12" (ngSubmit)="onSubmitBien(formBien)" #formBien="ngForm">
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="libelle" type="text" class="validate" name="libelle" value="12345" ngModel>
+									<label for="libelle">Libelle</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6">
+									<input id="largeur" type="number" class="validate" name="larg" ngModel>
+									<label for="largeur">Largeur</label>
+								</div>
+								<div class="input-field col s12 m6">
+									<input id="longueur" type="number" class="validate" name="long" ngModel>
+									<label for="longueur">Longueur</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6">
+									<input id="nbPiece" type="number" class="validate" name="nbPiece" ngModel>
+									<label for="nbPiece">Nombre de pièce</label>
+									<!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+								</div>
+								<div class="input-field col s12 m6">
+									<input id="valeur" type="number" class="validate" name="valeur" ngModel>
+									<label for="valeur">Valeur estimée</label>
+									<!-- <span class="helper-text" data-error="wrong" data-success="right">Helper text</span> -->
+								</div>
+							</div>
+							<div class="row">
+								<span *ngFor="let cat of categorie" class="col s6 m4 l3 xl2">
+									<label>
+										<input type="checkbox" name="{{ cat.id }}" ngModel />
+										<span>{{ cat.libelle }}</span>
+									</label>
+								</span>
+							</div>
+							<div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m6 push-m6 btn waves-effect waves-light red lighten-2" type="submit"
+									name="action">Valider l'insertion
+									<i class="material-icons right">send</i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+	<!-- degrade. ne pas supprimer svp -->
+	<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+		<linearGradient id="my-cool-gradient" x2="1" y2="1">
+			<stop offset="0%" stop-color="#fc7f45" />
+			<stop offset="100%" stop-color="#c45b6c" />
+		</linearGradient>
+	</svg>
+</section>
+
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(3)" *ngIf="action == 1">
+		<i class="large material-icons">add</i>
+	</a>
+
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(1)" *ngIf="action == 2 || action == 3">
+		<i class="large material-icons">format_list_bulleted</i>
+	</a>
+</div>

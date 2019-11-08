@@ -1,0 +1,180 @@
+<section class="vr-dashboard  grey-text darken-2">
+	<main>
+		<app-nav style="position: absolute;"></app-nav>
+		<div id="contenu" class="container">
+			<div class="row">
+				<div class="col s12 offset-s0 m8 offset-m2">
+					<!-- 
+						----------------------------------LISTE DES PROFILS----------------------------------------
+					 	-->
+					<div class="row" *ngIf="action == 1">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">LISTE DES
+									UTILISATEURS</span>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<ul class="collapsible">
+										<li *ngFor="let _user of users">
+											<div class="collapsible-header" (click)="openCollapse(_user)">
+												<!-- <i class="material-icons">filter_drama</i> -->
+												{{ _user.first_name|uppercase }}&nbsp;{{ _user.last_name }}
+												<!-- <span class="new badge" data-badge-caption="supprimer"></span>
+												<span class="new badge" data-badge-caption="modifer"
+													(click)="viewPart(2, _user)"></span> -->
+											</div>
+											<div class="collapsible-body" [ngClass]="{'display-none': collapseTab[users.indexOf(_user)]==false, 
+												'display-bloc': collapseTab[users.indexOf(_user)]==true}">
+												<ul>
+													<!-- <li>MATRICULE: {{ _.matricule }}</li> -->
+												</ul>
+												<div class="row">
+													<button style="margin-top: 5px;" (click)="deleteUser(_user)"
+														class="col s11 m5 push-m1 btn waves-effect waves-light red lighten-2">Supprimer
+														<i class="material-icons right">delete</i>
+													</button>
+													<button style="margin: 5px 0px 0px 5px;" (click)="viewPart(2, _user)"
+														class="col s11 m5 push-m1 btn waves-effect waves-light red lighten-2">Modifier
+														<i class="material-icons right">edit</i>
+													</button>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 
+						------------------------------------INSERER UNE NOUVELLE/MODIFIER PROFIL-----------------------------------
+						 -->
+					<div class="row card-panel" *ngIf="action == 3||(action == 2 && userMod != null)">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align"
+									*ngIf="userMod == null">INSERER UN NOUVEL
+									UTILISATEUR</span>
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align"
+									*ngIf="userMod != null">MODIFIER LES INFOS
+									UTILISATEUR</span>
+							</div>
+						</div>
+						<form class="col s12" [formGroup]="userForm" (ngSubmit)="onSubmitUser()">
+							<div class="row">
+								<div class="input-field col s12">
+									<span class="grey-text darken-2" *ngIf="userMod != null">Pseudo</span>
+									<input id="libelle" type="text" class="validate" formControlName="pseudo">
+									<label for="libelle" *ngIf="userMod == null">pseudo</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2" *ngIf="userMod != null">Nom</span>
+									<input id="nom" type="text" class="validate" formControlName="nom">
+									<label for="nom" *ngIf="userMod == null">Nom</label>
+								</div>
+
+								<div class="input-field col s12 m6">
+									<span class="grey-text darken-2" *ngIf="userMod != null">Prénom(s)</span>
+									<input id="prenoms" type="text" class="validate" formControlName="prenoms">
+									<label for="prenoms" *ngIf="userMod == null">Prénom(s)</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<span class="grey-text darken-2" *ngIf="userMod != null">E-mail</span>
+									<input id="mail" type="email" class="validate" formControlName="mail">
+									<label for="mail" *ngIf="userMod == null">E-mail</label>
+								</div>
+							</div>
+							<div class="row" formArrayName="numero">
+								<div class="input-field col s12"
+									*ngFor="let numeroControl of getNumero().controls; let i = index">
+									<span class="grey-text darken-2" *ngIf="userMod != null">Numero de téléphone {{ i+1 }}</span>
+									<input id="numero" type="tel" class="validate" [formControlName]="i">
+									<label for="numero" *ngIf="userMod == null">Numéro de téléphone {{ i+1 }}</label>
+								</div>
+
+								<a style="margin: 5px;" class="col s12 red-text lighten-2 right-align"
+									(click)="onAddNumero()">Ajouter un numéro
+									<i class="material-icons">add</i></a>
+							</div>
+							<div class="row card-panel">
+								<div class="col s12" *ngFor=" let adresseControl of getVille().controls; let i=index">
+									<div class="row">
+										<span class="col s12 center-align">ADRESSE {{ i+1 }}</span>
+										<div class="input-field col s12 m6" formArrayName="pays">
+											<span class="grey-text darken-2" *ngIf="userMod != null">Pays {{ i+1 }}</span>
+											<input id="pays" type="text" class="validate" [formControlName]="i">
+											<label for="pays" *ngIf="userMod == null">Pays {{ i+1 }}</label>
+										</div>
+
+										<div class="input-field col s12 m6" formArrayName="ville">
+											<span class="grey-text darken-2" *ngIf="userMod != null">Ville {{ i+1 }}</span>
+											<input id="ville" type="text" class="validate" [formControlName]="i">
+											<label for="ville" *ngIf="userMod == null">Ville {{ i+1 }}</label>
+										</div>
+
+										<div class="input-field col s12 m6" formArrayName="commune">
+											<span class="grey-text darken-2" *ngIf="userMod != null">Commune {{ i+1 }}</span>
+											<input id="commune" type="text" class="validate" [formControlName]="i">
+											<label for="commune" *ngIf="userMod == null">Commune {{ i+1 }}</label>
+										</div>
+										<div class="input-field col s12 m6" formArrayName="quartier">
+											<span class="grey-text darken-2" *ngIf="userMod != null">Quartier {{ i+1 }}</span>
+											<input id="quartier" type="text" class="validate" [formControlName]="i">
+											<label for="quartier" *ngIf="userMod == null">Quartier {{ i+1 }}</label>
+										</div>
+									</div>
+								</div>
+								<a style="margin: 5px;" class="col s12 red-text lighten-2 right-align"
+									(click)="onAddAdresse()">Ajouter une Adresse
+									<i class="material-icons">add</i></a>
+							</div>
+							<div class="row">
+								<div class="input-field col s10 push-s1 m6 push-m3 l4 push-l4 xl-2 push-l4">
+									<div class="switch">
+										<label>
+											<span class="profil-text-size">Client</span>
+											<input type="checkbox" formControlName="is_staff">
+											<span class="lever"></span>
+											<span class="profil-text-size">Staff</span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m6 push-m6 btn waves-effect waves-light red lighten-2" type="submit"
+									name="action" [disabled]="userForm.invalid">Valider l'insertion
+									<i class="material-icons right">send</i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!--[if IE]>
+		 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	  <![endif]-->
+	<!-- degrade. ne pas supprimer svp -->
+	<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+		<linearGradient id="my-cool-gradient" x2="1" y2="1">
+			<stop offset="0%" stop-color="#fc7f45" />
+			<stop offset="100%" stop-color="#c45b6c" />
+		</linearGradient>
+	</svg>
+</section>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(3)" *ngIf="action == 1">
+		<i class="large material-icons">add</i>
+	</a>
+
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(1)" *ngIf="action == 2 || action == 3">
+		<i class="large material-icons">format_list_bulleted</i>
+	</a>
+</div>

@@ -1,0 +1,145 @@
+<section class="vr-dashboard  grey-text darken-2">
+	<main>
+		<app-nav style="position: absolute;"></app-nav>
+		<div id="contenu" class="container">
+			<div class="row">
+				<div class="col s12 offset-s0 m8 offset-m2">
+					<!-- 
+						----------------------------------LISTE DES ENTREPRISES----------------------------------------
+					 	-->
+					<div class="row" *ngIf="action == 1">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">LISTE DES GROUPES
+									D'ENTREPRISES</span>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<ul class="collapsible">
+										<li *ngFor="let _gpEntreprise of gpEntreprises">
+											<div class="collapsible-header" (click)="openCollapse(_gpEntreprise)">
+												<!-- <i class="material-icons">filter_drama</i> -->
+												{{ _gpEntreprise.nom_du_groupe|uppercase }}
+												<span class="new badge"
+													data-badge-caption="entreprises">{{_gpEntreprise.entreprises.length  }}</span>
+											</div>
+											<div class="collapsible-body" [ngClass]="{'display-none': collapseTab[gpEntreprises.indexOf(_gpEntreprise)]==false, 
+												'display-bloc': collapseTab[gpEntreprises.indexOf(_gpEntreprise)]==true}">
+												<ul>
+													<li>MATRICULE: {{ _gpEntreprise.matricule }}</li>
+												</ul>
+												<div class="row">
+													<button style="margin-top: 5px;" (click)="deleteGpEnterpise(_gpEntreprise)"
+														class="col s11 m5 push-m1 btn waves-effect waves-light red lighten-2">Supprimer
+														<i class="material-icons right">delete</i>
+													</button>
+													<button style="margin: 5px 0px 0px 5px;" (click)="viewPart(2, _gpEntreprise)"
+														class="col s11 m5 push-m1 btn waves-effect waves-light red lighten-2">Modifier
+														<i class="material-icons right">edit</i>
+													</button>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 
+						----------------------------------MODIFIER UNE ENTREPRISE--------------------------------------
+					 	-->
+					<div class="row card-panel" *ngIf="action == 2 && gpEntrepriseMod != null">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">MODIFIER UNE
+									ENTREPRISE</span>
+							</div>
+						</div>
+						<form class="col s12" (ngSubmit)="onSubmitModEntreprise(formModEntreprise)"
+							#formModEntreprise="ngForm">
+							<div class="row">
+								<div class="input-field col s12">
+									<span class="grey-text darken-2">Nom du groupe</span>
+									<input id="activite" type="text" class="validate" name="nom"
+										[(ngModel)]="gpEntrepriseMod.nom_du_groupe">
+								</div>
+							</div>
+							<div class="row">
+								<span class="col s12">Entreprises membres:</span>
+								<span *ngFor="let _entreprise of allEnterprises" class="col s12 m6">
+									<label>
+										<input type="checkbox" name="{{ _entreprise.id }}" [ngModel]="isChecked( _entreprise.id)" />
+										<span>{{ _entreprise.matricule }}-{{ _entreprise.nom }}</span>
+									</label>
+								</span>
+							</div>
+							<div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m6 push-m6 btn waves-effect waves-light red lighten-2" type="submit"
+									name="action">Valider la modifcation
+									<i class="material-icons right">send</i>
+								</button>
+							</div>
+						</form>
+					</div>
+
+					<!-- 
+						------------------------------------INSERER UNE NOUVELLE ENTREPRISE-----------------------------------
+						 -->
+					<div class="row card-panel" *ngIf="action == 3">
+						<div class="col s12">
+							<div id="infosite" class="row">
+								<span class="col s12 m8 pull-m2 pull-s0 red-text text-darken-2 center-align">CREER UN NOUVEAU
+									GROUPE D' ENTREPRISES</span>
+							</div>
+						</div>
+						<form class="col s12" (ngSubmit)="onSubmitGpEntreprises(formGpEntreprise)" #formGpEntreprise="ngForm">
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="libelle" type="text" class="validate" name="nom_du_groupe" ngModel>
+									<label for="libelle">DESIGNATION DU GROUPE</label>
+								</div>
+							</div>
+							<div class="row">
+								<span class="col s12 grey-text darken-2">Entreprises membres:</span>
+								<span *ngFor="let _enterprise of allEnterprises" class="col s12 m6">
+									<label>
+										<input type="checkbox" name="{{ _enterprise.id }}" ngModel />
+										<span>{{ _enterprise.nom }}</span>
+									</label>
+								</span>
+							</div>
+							<div class="row">
+								<button style="margin: 5px;"
+									class="col s12 m6 push-m6 btn waves-effect waves-light red lighten-2" type="submit"
+									name="action">Valider la création
+									<i class="material-icons right">send</i>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!--[if IE]>
+		 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	  <![endif]-->
+	<!-- degrade. ne pas supprimer svp -->
+	<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+		<linearGradient id="my-cool-gradient" x2="1" y2="1">
+			<stop offset="0%" stop-color="#fc7f45" />
+			<stop offset="100%" stop-color="#c45b6c" />
+		</linearGradient>
+	</svg>
+</section>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(3)" *ngIf="action == 1">
+		<i class="large material-icons">add</i>
+	</a>
+
+	<a class="btn-floating btn-large red lighten-1" (click)="viewPart(1)" *ngIf="action == 2 || action == 3">
+		<i class="large material-icons">format_list_bulleted</i>
+	</a>
+</div>

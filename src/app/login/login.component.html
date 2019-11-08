@@ -1,0 +1,35 @@
+<body class="vr-homepage">
+	<!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+	<div id="homewrapper" class="ym-wrapper">
+		<div id="formwrapper">
+			<form (ngSubmit)="onSubmitLogin(formLogin)" #formLogin="ngForm">
+				<div class="inputwrapper">
+					<i class="fas fa-user gradient"></i>
+					<input type="text" name="idf" id="username" ngModel required placeholder="IDENTIFIANT"
+						minlength="{{ idfLen }}" (input)="validInput(formLogin)">
+				</div>
+				<div class="inputwrapper">
+					<i class="fas fa-key gradient"></i>
+					<input type="password" id="pass" name="mdp" ngModel required placeholder="MOT DE PASSE"
+						minlength="{{ mdpLen }}" (input)="validInput(formLogin)">
+				</div>
+				<p style="color: red; font-size: 0.75em; margin: 7.5%;" *ngIf="msgLogin!=null">{{ msgLogin|uppercase }}</p>
+				<div class="inputwrapper-alt">
+					<button id="connex" type="submit" [ngStyle]="{ opacity: getOpacityOfSubmitButton(formLogin.invalid) }"
+						[disabled]="formLogin.invalid">CONNEXION</button>
+				</div>
+			</form>
+			<a (click)="goToResetPassword()">Mot de passe oublié ?</a>
+		</div>
+	</div>
+	<a id="credits" href="" class="">Tous droits réservés</a>
+	<!-- degrade. ne pas supprimer svp -->
+	<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+		<linearGradient id="my-cool-gradient" x2="1" y2="1">
+			<stop offset="0%" stop-color="#fc7f45" />
+			<stop offset="100%" stop-color="#c45b6c" />
+		</linearGradient>
+	</svg>
+</body>
